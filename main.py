@@ -1,21 +1,33 @@
-from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
+from astrbot.api.event import filter, AstrMessageEvent
 from astrbot.api.star import Context, Star, register
+from .api import Media302Api
 from astrbot.api import logger
 
-@register("helloworld", "YourName", "一个简单的 Hello World 插件", "1.0.0")
-class MyPlugin(Star):
-    def __init__(self, context: Context):
+@register("Media302Save", "Qoo", "media302转存插件", "1.0.0")
+class Media302SavePlugin(Star):
+    def __init__(self, context: Context, config: dict):
         super().__init__(context)
-    
-    # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
-    @filter.command("helloworld")
-    async def helloworld(self, event: AstrMessageEvent):
-        '''这是一个 hello world 指令''' # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
-        user_name = event.get_sender_name()
-        message_str = event.message_str # 用户发的纯文本消息字符串
-        message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
-        logger.info(message_chain)
-        yield event.plain_result(f"Hello, {user_name}, 你发了 {message_str}!") # 发送一条纯文本消息
+        self.api = Media302Api(config)
+        if not all([self.api.base_url, self.api.token]):
+            logger.error("media302插件配置不完整")
 
-    async def terminate(self):
-        '''可选择实现 terminate 函数，当插件被卸载/停用时会调用。'''
+    @filter.command("115")
+    async def handle_media_save(self, event: AstrMessageEvent, message: str):
+        '''media302转存指令'''
+        url = message.strip()
+        if not url or not any(d in url for d in ("115.com/s/", "115cdn.com/s/")):
+            yield event.plain_result("请输入有效的115网盘分享链接，格式如：https://115.com/s/xxxxx")
+            return
+            
+        try:
+            result = await self.api.save_share(url)
+            if result.get('msg') in ('success', '文件已接收，无需重复接收！'):
+                yield event.plain_result(f"✅ 转存成功！\n状态：{result.get('msg')}")
+            else:
+                error_msg = result.get('msg', '未知错误')
+                logger.error(f"转存失败: {error_msg}")
+                yield event.plain_result(f"❌ 转存失败：{error_msg}")
+                
+        except Exception as e:
+            logger.error(f"处理请求时发生错误: {str(e)}", exc_info=True)
+            yield event.plain_result(f"⚠️ 处理请求时发生错误: {str(e)}")

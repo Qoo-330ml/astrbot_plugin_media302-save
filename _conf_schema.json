@@ -1,0 +1,14 @@
+{
+    "media302_url": {
+        "description": "media302_url",
+        "type": "string"
+    },
+    "folder": {
+        "description": "folder",
+        "type": "string"
+    },
+    "media302_token": {
+        "description": "media302_token",
+        "type": "string"
+    }
+}
