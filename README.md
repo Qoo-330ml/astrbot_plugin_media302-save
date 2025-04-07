@@ -1,9 +1,16 @@
-# helloworld
+# media302转存插件
 
-AstrBot 插件模板
+> 本插件用于通过media302软件转存115网盘分享链接
 
-A template plugin for AstrBot plugin feature
+## 配置参数
+- media302_url：media302软件服务地址 (如: https://302.abc.xyz:666)
+- folder：默认转存目录
+- media302_token：media302软件认证token
 
-# 支持
+## 使用指令
+- /115 [115分享链接]  转存指定的115分享内容
 
-[帮助文档](https://astrbot.app)
+## 注意事项
+1. 请确保media302服务正常运行
+2. token需具有有效权限
+3. 分享链接需完整包含密码部分
