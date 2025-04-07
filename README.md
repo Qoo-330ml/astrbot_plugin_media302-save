@@ -1,6 +1,6 @@
 # media302转存插件
 > 一个基于 [AstrBot](https://github.com/astrxbot/astr-bot) 的插件。
-> 本插件用于通过media302软件转存115网盘分享链接
+> 本插件用于通过media302软件转存115网盘分享链接。
 
 ## 配置参数
 - media302_url：media302软件服务地址 (如: https://302.abc.xyz:666)
