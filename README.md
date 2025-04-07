@@ -3,7 +3,7 @@
 > 本插件用于通过media302软件转存115网盘分享链接。
 
 ## 配置参数
-- media302_url：media302软件服务地址 (如: https://302.abc.xyz:666)
+- media302_url：media302软件服务地址 (如: https://302.abc.xyz:666（不需要到/strm）)
 - folder：默认转存目录
 - media302_token：media302软件认证token
 
