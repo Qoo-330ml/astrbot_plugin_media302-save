@@ -1,14 +1,14 @@
 {
     "media302_url": {
-        "description": "media302_url",
+        "description": "media302_url，到端口即可，不需要详细到/strm",
         "type": "string"
     },
     "folder": {
-        "description": "folder",
+        "description": "folder，115转存目录",
         "type": "string"
     },
     "media302_token": {
-        "description": "media302_token",
+        "description": "media302_token，F12找到Authorization就是",
         "type": "string"
     }
 }
